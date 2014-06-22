@@ -9,7 +9,7 @@
 ;; add package melpa
 (require 'package)
 (add-to-list 'package-archives
-	     '("melpa" . "http://melpha.milkbox.net/pakcages/") t)
+	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 
 ;; enable ggtags-mode 
 (add-hook 'c-mode-common-hook
