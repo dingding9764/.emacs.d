@@ -17,3 +17,8 @@
 	    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
 	      (ggtags-mode 1))))
 (add-hook 'dired-mode-hook 'ggtags-mode)
+
+
+(add-hook 'c-mode-common-hook
+(lambda()
+  (local-set-key (kbd "C-c o") 'ff-find-other-file)))
