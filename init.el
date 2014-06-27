@@ -80,16 +80,15 @@
 	      (ggtags-mode 1))))
 (add-hook 'dired-mode-hook 'ggtags-mode)
 
-<<<<<<< HEAD
 ;; -------------------- extra nice things --------------------
 ;; use shift to move around windows
 (windmove-default-keybindings 'shift)
 (show-paren-mode t)
  ; Turn beep off
 (setq visible-bell nil)
-=======
+
 
 (add-hook 'c-mode-common-hook
 (lambda()
   (local-set-key (kbd "C-c o") 'ff-find-other-file)))
->>>>>>> f6591cab77e9daa8e0bc58f2eccb49df35209bdd
+
