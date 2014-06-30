@@ -13,7 +13,7 @@
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives
 	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(package-refresh-contents)
+;;(package-refresh-contents)
 
 (defun install-if-needed (package)
   (unless (package-installed-p package)
@@ -32,7 +32,7 @@
 (require 'autopair)
 (require 'yasnippet)
 (require 'flycheck)
-(global-flycheck-mode t)
+;;(global-flycheck-mode t)
 
 (global-set-key [f7] 'find-file-in-repository)
 
@@ -80,6 +80,30 @@
 	      (ggtags-mode 1))))
 (add-hook 'dired-mode-hook 'ggtags-mode)
 
+(add-hook 'c-mode-common-hook
+	  (lambda()
+	    (local-set-key (kbd "C-c o") 'ff-find-other-file)))
+
+;; textmode flycheck
+(add-hook 'text-mode-hook 'flyspell-mode)
+
+
+(add-hook 'highlight-parentheses-mode-hook
+          '(lambda ()
+             (setq autopair-handle-action-fns
+                   (append
+		    (if autopair-handle-action-fns
+			autopair-handle-action-fns
+		      '(autopair-default-handle-action))
+		    '((lambda (action pair pos-before)
+			(hl-paren-color-update)))))))
+
+(define-globalized-minor-mode global-highlight-parentheses-mode
+  highlight-parentheses-mode
+  (lambda ()
+    (highlight-parentheses-mode t)))
+(global-highlight-parentheses-mode t)
+
 ;; -------------------- extra nice things --------------------
 ;; use shift to move around windows
 (windmove-default-keybindings 'shift)
@@ -87,8 +111,4 @@
  ; Turn beep off
 (setq visible-bell nil)
 
-
-(add-hook 'c-mode-common-hook
-(lambda()
-  (local-set-key (kbd "C-c o") 'ff-find-other-file)))
 
