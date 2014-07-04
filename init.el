@@ -104,6 +104,12 @@
     (highlight-parentheses-mode t)))
 (global-highlight-parentheses-mode t)
 
+
+;; sr speedbar
+(require 'sr-speedbar)
+(global-set-key (kbd "s-M-s") 'sr-speedbar-toggle)
+(setq sr-speedbar-right-side nil)
+
 ;; -------------------- extra nice things --------------------
 ;; use shift to move around windows
 (windmove-default-keybindings 'shift)
