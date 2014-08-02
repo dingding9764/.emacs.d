@@ -1,3 +1,31 @@
+;; replace tab with spaces
+(defun how-many-region (begin end regexp &optional interactive)
+  "Print number of non-trivial matches for REGEXP in region.                    
+Non-interactive arguments are Begin End Regexp"
+  (interactive "r\nsHow many matches for (regexp): \np")
+  (let ((count 0) opoint)
+    (save-excursion
+      (setq end (or end (point-max)))
+      (goto-char (or begin (point)))
+      (while (and (< (setq opoint (point)) end)
+                  (re-search-forward regexp end t))
+        (if (= opoint (point))
+            (forward-char 1)
+          (setq count (1+ count))))
+      (if interactive (message "%d occurrences" count))
+      count)))
+
+(defun infer-indentation-style ()
+  ;; if our source file uses tabs, we use tabs, if spaces spaces, and if        
+  ;; neither, we use the current indent-tabs-mode                               
+  (let ((space-count (how-many-region (point-min) (point-max) "^  "))
+        (tab-count (how-many-region (point-min) (point-max) "^\t")))
+    (if (> space-count tab-count) (setq indent-tabs-mode nil))
+    (if (> tab-count space-count) (setq indent-tabs-mode t))))
+
+(setq indent-tabs-mode nil)
+(infer-indentation-style)
+
 ;; enable ido
 (setq ido-enable-flex-matching t)
 (setq ido-everywhere t)
@@ -13,7 +41,7 @@
 	     '("melpa" . "http://melpa.milkbox.net/packages/") t)
 (add-to-list 'package-archives
 	     '("marmalade" . "http://marmalade-repo.org/packages/") t)
-(package-refresh-contents)
+;;(package-refresh-contents)
 
 (defun install-if-needed (package)
   (unless (package-installed-p package)
@@ -32,7 +60,7 @@
 (require 'autopair)
 (require 'yasnippet)
 (require 'flycheck)
-(global-flycheck-mode t)
+;;(global-flycheck-mode t)
 
 (global-set-key [f7] 'find-file-in-repository)
 
@@ -79,6 +107,22 @@
 	    (when (derived-mode-p 'c-mode 'c++-mode 'java-mode 'asm-mode)
 	      (ggtags-mode 1))))
 (add-hook 'dired-mode-hook 'ggtags-mode)
+
+(add-hook 'highlight-parentheses-mode-hook
+          '(lambda ()
+             (setq autopair-handle-action-fns
+                   (append
+		    (if autopair-handle-action-fns
+			autopair-handle-action-fns
+		      '(autopair-default-handle-action))
+		    '((lambda (action pair pos-before)
+			(hl-paren-color-update)))))))
+
+(define-globalized-minor-mode global-highlight-parentheses-mode
+  highlight-parentheses-mode
+  (lambda ()
+    (highlight-parentheses-mode t)))
+(global-highlight-parentheses-mode t)
 
 ;; -------------------- extra nice things --------------------
 ;; use shift to move around windows
