@@ -108,6 +108,14 @@ Non-interactive arguments are Begin End Regexp"
 	      (ggtags-mode 1))))
 (add-hook 'dired-mode-hook 'ggtags-mode)
 
+
+(add-hook 'c-mode-common-hook
+	  (lambda()
+	    (local-set-key (kbd "C-c o") 'ff-find-other-file)))
+
+;; textmode flycheck
+(add-hook 'text-mode-hook 'flyspell-mode)
+
 (add-hook 'highlight-parentheses-mode-hook
           '(lambda ()
              (setq autopair-handle-action-fns
@@ -124,6 +132,11 @@ Non-interactive arguments are Begin End Regexp"
     (highlight-parentheses-mode t)))
 (global-highlight-parentheses-mode t)
 
+;; sr speedbar
+(require 'sr-speedbar)
+(global-set-key (kbd "s-M-s") 'sr-speedbar-toggle)
+(setq sr-speedbar-right-side nil)
+
 ;; -------------------- extra nice things --------------------
 ;; use shift to move around windows
 (windmove-default-keybindings 'shift)
@@ -131,8 +144,4 @@ Non-interactive arguments are Begin End Regexp"
  ; Turn beep off
 (setq visible-bell nil)
 
-
-(add-hook 'c-mode-common-hook
-(lambda()
-  (local-set-key (kbd "C-c o") 'ff-find-other-file)))
 
