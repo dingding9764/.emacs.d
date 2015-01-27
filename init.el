@@ -49,7 +49,7 @@ Non-interactive arguments are Begin End Regexp"
 
 ;; make more packages available with the package installer
 (setq to-install
-      '(python-mode magit yasnippet jedi auto-complete autopair find-file-in-repository flycheck))
+      '(python-mode magit yasnippet jedi auto-complete autopair find-file-in-repository flycheck sr-speedbar))
 
 (mapc 'install-if-needed to-install)
 
@@ -86,8 +86,8 @@ Non-interactive arguments are Begin End Regexp"
 ;; With the same interpreter you're using.
 
 ;; if you need to change your python intepreter, if you want to change it
-;; (setq jedi:server-command
-;;       '("python2" "/home/andrea/.emacs.d/elpa/jedi-0.1.2/jediepcserver.py"))
+(setq jedi:server-command
+       '("python2.7" "/Users/xiang/.emacs.d/elpa/jedi-20140321.1323/jediepcserver.py"))
 
 (add-hook 'python-mode-hook
 	  (lambda ()
